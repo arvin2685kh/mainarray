@@ -1,0 +1,24 @@
+ui_show()
+    If $GUISHOW = 0 Then
+        Local $pw = InputBox("Enter Password","Enter Password","","*",150,130)
+        If Not @error Then
+            If $pw = "1234" Then
+                GUISetState(@SW_SHOW)
+                $GUISHOW = 1
+                Return
+            EndIf
+        EndIf
+    ElseIf $GUISHOW = 1 Then
+        GUISetState(@SW_HIDE)
+        $GUISHOW = 0
+        Return
+    EndIf
+EndFunc
+
+Func _save($text)
+    If GUICtrlRead($checkbox_debug_save) = 1 Then
+        $file = FileOpen(@ScriptDir & "\log\" & @Year & @MON & @MDAY & "-log.txt",9)
+        FileWrite ($file,$text)
+        FileClose($file)
+    Endif
+    If GUICtrlRead($checkbox_debug) = 1 Then _GUICtrlEdit_AppendText($DEBUG , $text)
